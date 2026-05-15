@@ -3,6 +3,9 @@ import TaskForm from './components/TaskForm'
 import TaskList from './components/TaskList'
 import './App.css'
 
+// Backend URL - centralized configuration
+export const BACKEND_URL = 'http://localhost:5000'
+
 function App() {
   const [tasks, setTasks] = useState([])
   const [editingTask, setEditingTask] = useState(null)
@@ -18,7 +21,7 @@ function App() {
     setLoading(true)
     setError(null)
     try {
-      const response = await fetch('/api/tasks')
+      const response = await fetch(`${BACKEND_URL}/api/tasks`)
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`)
       }
@@ -26,7 +29,7 @@ function App() {
       setTasks(Array.isArray(data) ? data : [])
     } catch (err) {
       console.error('Error fetching tasks:', err)
-      setError('Failed to load tasks. Make sure the backend is running on http://localhost:5000')
+      setError(`Failed to load tasks. Make sure the backend is running on ${BACKEND_URL}`)
       setTasks([])
     } finally {
       setLoading(false)
@@ -35,7 +38,7 @@ function App() {
 
   const addTask = async (taskData) => {
     try {
-      const response = await fetch('/api/tasks', {
+      const response = await fetch(`${BACKEND_URL}/api/tasks`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(taskData)
@@ -51,7 +54,7 @@ function App() {
 
   const updateTask = async (id, taskData) => {
     try {
-      const response = await fetch(`/api/tasks/${id}`, {
+      const response = await fetch(`${BACKEND_URL}/api/tasks/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(taskData)
@@ -68,7 +71,7 @@ function App() {
 
   const deleteTask = async (id) => {
     try {
-      const response = await fetch(`/api/tasks/${id}`, { method: 'DELETE' })
+      const response = await fetch(`${BACKEND_URL}/api/tasks/${id}`, { method: 'DELETE' })
       if (!response.ok) throw new Error('Failed to delete task')
       setTasks(tasks.filter(t => t._id !== id))
     } catch (err) {
