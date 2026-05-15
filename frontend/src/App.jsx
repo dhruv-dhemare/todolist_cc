@@ -4,7 +4,7 @@ import TaskList from './components/TaskList'
 import './App.css'
 
 // Backend URL - centralized configuration
-export const BACKEND_URL = 'http://localhost:5000'
+export const BACKEND_URL = 'http://Todolist-backend-env.eba-w9uuqqqw.ap-south-1.elasticbeanstalk.com'
 
 function App() {
   const [tasks, setTasks] = useState([])
